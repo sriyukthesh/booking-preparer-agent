@@ -1,0 +1,8 @@
+streamlit==1.32.2
+flask==3.0.2
+requests==2.31.0
+beautifulsoup4==4.12.3
+langgraph==0.0.26
+google-genai==0.3.0
+pydantic==2.6.3
+python-dotenv==1.0.1

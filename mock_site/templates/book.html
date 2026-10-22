@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>Book {{ item.id }}</title></head>
+<body>
+    <h2>Enter Passenger Details</h2>
+    <form action="/book/{{ item.id }}" method="POST" id="booking-form">
+        <!-- Defaulting to 2 pax for demo simplicity -->
+        <input type="hidden" name="pax_count" value="2" id="pax-count-input">
+        
+        <h3>Passenger 1</h3>
+        <input type="text" name="pax_name_0" id="pax_name_0" placeholder="Full Name" required>
+        <input type="number" name="pax_age_0" id="pax_age_0" placeholder="Age" required>
+
+        <h3>Passenger 2</h3>
+        <input type="text" name="pax_name_1" id="pax_name_1" placeholder="Full Name">
+        <input type="number" name="pax_age_1" id="pax_age_1" placeholder="Age">
+
+        <br><br>
+        <button type="submit" id="submit-details">Proceed to Verification</button>
+    </form>
+</body>
+</html>

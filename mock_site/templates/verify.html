@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f7fb">
+    <title>Review &amp; pay | Wayfare</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #17243b;
+            --muted: #718096;
+            --line: #e6ebf2;
+            --blue: #315ee8;
+            --blue-dark: #254bc0;
+            --soft-blue: #eef3ff;
+            --green: #16845b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: #f4f7fb;
+            color: var(--ink);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; }
+
+        .topbar {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 max(24px, calc((100vw - 1080px) / 2));
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--ink);
+            text-decoration: none;
+            font-size: 19px;
+            font-weight: 750;
+            letter-spacing: -0.6px;
+        }
+
+        .brand-mark {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: var(--blue);
+            color: white;
+            font-size: 17px;
+        }
+
+        .secure-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #62718a;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .secure-label span { color: var(--green); font-size: 16px; }
+
+        main {
+            width: min(100% - 40px, 960px);
+            margin: 42px auto 64px;
+        }
+
+        .steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 30px;
+            color: #8b97aa;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+
+        .step { display: flex; align-items: center; gap: 8px; }
+        .step-number {
+            width: 25px;
+            height: 25px;
+            display: grid;
+            place-items: center;
+            border: 1px solid #d6ddea;
+            border-radius: 50%;
+            background: #fff;
+            font-size: 11px;
+        }
+        .step.done { color: var(--green); }
+        .step.done .step-number { border-color: #c6e8d9; background: #e9f7f0; }
+        .step.current { color: var(--blue); }
+        .step.current .step-number { border-color: var(--blue); background: var(--blue); color: #fff; }
+        .step-divider { width: 42px; height: 1px; background: #dce3ed; }
+
+        .heading { margin: 0 0 8px; text-align: center; font-size: clamp(27px, 4vw, 34px); letter-spacing: -1.1px; }
+        .subheading { margin: 0 0 30px; text-align: center; color: var(--muted); font-size: 15px; }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(270px, .8fr);
+            align-items: start;
+            gap: 22px;
+        }
+
+        .card {
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: #fff;
+            box-shadow: 0 12px 35px rgba(31, 51, 86, .055);
+        }
+
+        .card-section { padding: 23px 25px; }
+        .card-section + .card-section { border-top: 1px solid var(--line); }
+        .section-title { margin: 0 0 18px; font-size: 15px; font-weight: 750; }
+
+        .route {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 17px;
+            border: 1px solid #e9edf4;
+            border-radius: 13px;
+            background: #fbfcfe;
+        }
+
+        .route-point { min-width: 0; }
+        .route-code { font-size: 22px; font-weight: 750; letter-spacing: -.5px; }
+        .route-time { margin-top: 5px; color: var(--muted); font-size: 12px; }
+        .route-middle { flex: 1; max-width: 120px; text-align: center; color: #9aa6b8; }
+        .route-line { display: block; margin: 5px 0; border-top: 1px dashed #cbd4e1; }
+        .route-mode { color: #718096; font-size: 11px; text-transform: capitalize; }
+
+        .trip-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+        .pill {
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #f1f4f9;
+            color: #5d6a80;
+            font-size: 11px;
+            font-weight: 650;
+        }
+
+        .fare-row { display: flex; justify-content: space-between; gap: 16px; margin: 13px 0; color: #5f6d82; font-size: 14px; }
+        .fare-row strong { color: var(--ink); font-weight: 650; }
+        .fare-total { margin-top: 19px; padding-top: 18px; border-top: 1px dashed #dce3ed; }
+        .fare-total span { color: var(--ink); font-size: 15px; font-weight: 750; }
+        .fare-total strong { color: var(--blue); font-size: 24px; letter-spacing: -.5px; }
+        .fare-note { margin: 8px 0 0; color: #8894a6; font-size: 11px; }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 15px;
+            border: 1px solid #cbd8ff;
+            border-radius: 12px;
+            background: #f7f9ff;
+        }
+        .radio-mark {
+            width: 18px;
+            height: 18px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+            border: 5px solid var(--blue);
+            border-radius: 50%;
+            background: #fff;
+        }
+        .payment-copy { flex: 1; }
+        .payment-name { font-size: 13px; font-weight: 700; }
+        .payment-description { margin-top: 4px; color: var(--muted); font-size: 11px; }
+        .payment-badge { color: var(--blue); font-size: 11px; font-weight: 750; }
+
+        .pay-button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 18px;
+            padding: 15px 18px;
+            border: 0;
+            border-radius: 11px;
+            background: var(--blue);
+            color: white;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
+        }
+        .pay-button:hover { transform: translateY(-1px); background: var(--blue-dark); box-shadow: 0 8px 18px rgba(49, 94, 232, .22); }
+        .pay-button:focus-visible { outline: 3px solid #a9bcff; outline-offset: 3px; }
+        .secure-note { margin: 12px 0 0; text-align: center; color: #8491a4; font-size: 11px; }
+        .draft-id { display: block; margin-top: 13px; text-align: center; color: #a0aabc; font-size: 10px; }
+
+        @media (max-width: 700px) {
+            .topbar { height: 62px; padding: 0 20px; }
+            main { width: min(100% - 28px, 520px); margin-top: 28px; }
+            .checkout-grid { grid-template-columns: 1fr; gap: 14px; }
+            .steps { gap: 8px; margin-bottom: 24px; font-size: 10px; }
+            .step-divider { width: 20px; }
+            .card-section { padding: 20px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/" aria-label="Wayfare home">
+            <span class="brand-mark" aria-hidden="true">W</span>
+            Wayfare
+        </a>
+        <div class="secure-label"><span aria-hidden="true">&#9679;</span> Secure checkout</div>
+    </header>
+
+    <main>
+        <nav class="steps" aria-label="Booking progress">
+            <div class="step done"><span class="step-number" aria-hidden="true">&#10003;</span> Details</div>
+            <span class="step-divider" aria-hidden="true"></span>
+            <div class="step current" aria-current="step"><span class="step-number">2</span> Review &amp; pay</div>
+            <span class="step-divider" aria-hidden="true"></span>
+            <div class="step"><span class="step-number">3</span> Confirmation</div>
+        </nav>
+
+        <h1 class="heading">Review your trip</h1>
+        <p class="subheading">One last look before you make it official.</p>
+
+        <div class="checkout-grid">
+            <section class="card" aria-labelledby="trip-heading">
+                <div class="card-section">
+                    <h2 class="section-title" id="trip-heading">Your trip</h2>
+                    <div class="route">
+                        <div class="route-point">
+                            <div class="route-code">{{ draft.item.route.split('-')[0] }}</div>
+                            <div class="route-time">{{ draft.item.departure }}</div>
+                        </div>
+                        <div class="route-middle" aria-hidden="true">
+                            <span class="route-mode">{{ draft.item.type }}</span>
+                            <span class="route-line"></span>
+                            &#10148;
+                        </div>
+                        <div class="route-point" style="text-align: right">
+                            <div class="route-code">{{ draft.item.route.split('-')[-1] }}</div>
+                            <div class="route-time">{{ draft.item.arrival }}</div>
+                        </div>
+                    </div>
+                    <div class="trip-meta">
+                        <span class="pill">{{ draft.item.type|title }} · {{ draft.item.id }}</span>
+                        <span class="pill">{{ draft.passengers|length }} passenger{% if draft.passengers|length != 1 %}s{% endif %}</span>
+                    </div>
+                </div>
+
+                <div class="card-section">
+                    <h2 class="section-title">Fare summary <span style="color: #8995a8; font-size: 12px; font-weight: 500;">(per passenger)</span></h2>
+                    <div class="fare-row"><span>Base fare</span><strong>₹{{ "{:,.0f}".format(base_fare) }}</strong></div>
+                    <div class="fare-row"><span>Taxes &amp; fees</span><strong>₹{{ "{:,.0f}".format(tax) }}</strong></div>
+                    <div class="fare-row fare-total"><span>Total for {{ draft.passengers|length }} passenger{% if draft.passengers|length != 1 %}s{% endif %}</span><strong>₹{{ "{:,.0f}".format(total) }}</strong></div>
+                    <p class="fare-note">All prices are in Indian Rupees (INR). Taxes are included in the total.</p>
+                    <span id="verify-base-fare" hidden>{{ base_fare }}</span>
+                    <span id="verify-tax" hidden>{{ tax }}</span>
+                    <span id="verify-total" hidden>{{ total }}</span>
+                </div>
+            </section>
+
+            <aside class="card" aria-labelledby="payment-heading">
+                <div class="card-section">
+                    <h2 class="section-title" id="payment-heading">Payment method</h2>
+                    <div class="payment-option" aria-label="Demo payment selected">
+                        <span class="radio-mark" aria-hidden="true"></span>
+                        <div class="payment-copy">
+                            <div class="payment-name">Secure online payment</div>
+                            <div class="payment-description">Your payment details stay protected</div>
+                        </div>
+                        <span class="payment-badge">DEMO</span>
+                    </div>
+                    <form action="/pay/{{ draft.draft_id }}" method="POST">
+                        <button type="submit" class="pay-button" id="pay-button">
+                            <span aria-hidden="true">&#128274;</span>
+                            Pay ₹{{ "{:,.0f}".format(total) }}
+                        </button>
+                    </form>
+                    <p class="secure-note">Encrypted checkout · No payment details are stored</p>
+                    <span class="draft-id">Booking ref: <span id="verify-draft-id">{{ draft.draft_id }}</span></span>
+                </div>
+            </aside>
+        </div>
+    </main>
+</body>
+</html>

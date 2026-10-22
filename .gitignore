@@ -1,0 +1,22 @@
+﻿# Environment & secrets
+.env
+.env.local
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# Test / runtime outputs
+test_results.json
+test_results_report.md
+*.db
+*.sqlite3
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

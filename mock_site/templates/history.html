@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><title>Booking History</title></head>
+<body>
+    <h2>Your Bookings</h2>
+    <table>
+        <tr>
+            <th>PNR</th><th>Route</th><th>Type</th>
+            <th>Departure</th><th>Arrival</th><th>Status</th>
+        </tr>
+        {% for b in bookings %}
+        <tr class="history-row">
+            <td class="history-pnr">{{ b.pnr }}</td>
+            <td class="history-route">{{ b.item.route }}</td>
+            <td class="history-type">{{ b.item.type }}</td>
+            <td class="history-departure">{{ b.item.departure }}</td>
+            <td class="history-arrival">{{ b.item.arrival }}</td>
+            <td class="history-status">{{ b.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

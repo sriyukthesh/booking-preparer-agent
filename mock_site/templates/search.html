@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>Search Results</title></head>
+<body>
+    <h2>Results for {{ route }}</h2>
+    <div id="results">
+        {% for item in results %}
+        <div class="search-result-item" style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
+            <p><strong>ID:</strong> <span class="item-id">{{ item.id }}</span></p>
+            <p><strong>Type:</strong> <span class="item-type">{{ item.type }}</span></p>
+            <p><strong>Route:</strong> <span class="item-route">{{ item.route }}</span></p>
+            <p><strong>Departs:</strong> <span class="item-departure">{{ item.departure }}</span></p>
+            <p><strong>Arrives:</strong> <span class="item-arrival">{{ item.arrival }}</span></p>
+            <p><strong>Base Fare:</strong> <span class="item-base-fare">{{ item.base_fare }}</span></p>
+            <p><strong>Tax:</strong> <span class="item-tax">{{ item.tax }}</span></p>
+            <p><strong>Rules:</strong> <span class="item-rules">{{ item.rules }}</span></p>
+            <a href="/book/{{ item.id }}">Book Now</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
